@@ -1,21 +1,19 @@
-//#region src/object/pick.d.ts
+//#region src/fp/object/pick.d.ts
 /**
- * Creates a new object composed of the picked object properties.
+ * Creates a function that builds a new object containing only the given `keys`
+ * from the input object. Keys that are absent on the input are skipped. Use it
+ * with {@link pipe}.
  *
- * This function takes an object and an array of keys, and returns a new object that
- * includes only the properties corresponding to the specified keys.
- *
- * @template T - The type of object.
- * @template K - The type of keys in object.
- * @param obj - The object to pick keys from.
- * @param keys - An array of keys to be picked from the object.
- * @returns A new object with the specified keys picked.
+ * @template T - The type of the input object.
+ * @template K - The union of keys to pick.
+ * @param keys - The keys to copy into the new object.
+ * @returns A function that maps an object `T` to `Pick<T, K>`.
  *
  * @example
- * const obj = { a: 1, b: 2, c: 3 };
- * const result = pick(obj, ['a', 'c']);
- * // result will be { a: 1, c: 3 }
+ * import { pipe, pick } from 'es-toolkit/fp';
+ *
+ * pipe({ a: 1, b: 2, c: 3 }, pick(['a', 'c'])); // => { a: 1, c: 3 }
  */
-declare function pick<T extends Record<string, any>, K extends keyof T>(obj: T, keys: readonly K[]): Pick<T, K>;
+declare function pick<T extends Record<string, any>, K extends keyof T>(keys: readonly K[]): (obj: T) => Pick<T, K>;
 //#endregion
 export { pick };
